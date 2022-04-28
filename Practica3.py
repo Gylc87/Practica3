@@ -10,7 +10,7 @@ import PIL
 import imutils
 from PIL import ImageTk
 from PIL import Image as Im
-fila = 4
+fila = 1
 columna = 3
 
 #Imágenes Iniciales
