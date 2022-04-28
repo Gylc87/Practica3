@@ -63,7 +63,7 @@ def graficar(operacion,redimg1,redimg2,redimgop):
     fig.add_subplot(fila,columna,3)
     plt.imshow(redimg2)
     plt.axis('off')
-    plt.title("Imagen 1")
+    plt.title("Imagen 2")
 
     fig.add_subplot(fila,columna,6)
     color = ('g','b','r')
@@ -72,7 +72,7 @@ def graficar(operacion,redimg1,redimg2,redimgop):
         plt.plot(hist, color = c)
         plt.xlim([0,256])
 
-    plt.title("Histograma img 1")
+    plt.title("Histograma img 2")
     fig.add_subplot(fila,columna,9)
     #aqui va el calculo del ecualizado
     img_to_yuv = cv2.cvtColor(Redimg2,cv2.COLOR_RGB2YUV)
@@ -84,12 +84,12 @@ def graficar(operacion,redimg1,redimg2,redimgop):
         plt.plot(hist, color = c)
         plt.xlim([0,256])
         
-    plt.title("Histograma img 1 Ecualizada")
+    plt.title("Histograma img 2 Ecualizada")
 
     fig.add_subplot(fila,columna,12)
     plt.imshow(equaimg2)
     plt.axis('off')
-    plt.title("Imagen 1 Ecualizada")
+    plt.title("Imagen 2 Ecualizada")
     #--------------------Operacion------------------
     fig.add_subplot(fila,columna,2)
     plt.imshow(redimgop)
