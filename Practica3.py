@@ -165,23 +165,22 @@ MostrarImagenes(operacion,imagen1,imagen2,result)
 
 
 operacion="Translacion"
-ancho = imagen1.shape[1] #columnas
-alto = imagen1.shape[0] #fila
-M = np.float32([[1,0,2],[0,1,2]])
-result = cv2.warpAffine(img1,M,(ancho,alto))
+rows,cols = imagen1.shape[:2]
+M = np.float32([[1,0,100],[0,1,50]])
+result = cv2.warpAffine(img1,M,(cols,rows))
 MostrarImagenes(operacion,imagen1,imagen2,result)
 
 
 operacion="Escalado"
-result= imutils.resize(imagen1,height=200)
+height, width = imagen1.shape[:2]
+result= cv2.resize(imagen1,(2*width, 2*height), interpolation = cv2.INTER_CUBIC)
 MostrarImagenes(operacion,imagen1,imagen2,result)
 
 
 operacion="Rotacion"
-ancho = imagen1.shape[1] #columnas
-alto = imagen1.shape[0] #fila
-M = cv2.getRotationMatrix2D((ancho//2,alto//2),15,1)
-result = cv2.warpAffine(img1,M,(ancho,alto))
+rows,cols = imagen1.shape[:2]
+M = cv2.getRotationMatrix2D(((cols-1)/2.0,(rows-1)/2.0),90,1)
+result = cv2.warpAffine(img1,M,(cols,rows))
 MostrarImagenes(operacion,imagen1,imagen2,result)
 
 
