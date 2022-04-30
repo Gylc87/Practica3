@@ -64,7 +64,7 @@ def MostrarImagenes(operacion,imagen1,imagen2,result):
 
     plt.title("Histograma img 2")
     fig.add_subplot(fila,columna,9)
-    #aqui va el calculo del ecualizado
+
     img_to_yuv = cv2.cvtColor(imagen2,cv2.COLOR_RGB2YUV)
     img_to_yuv[:,:,0] = cv2.equalizeHist(img_to_yuv[:,:,0])
     EcuaHist2 = cv2.cvtColor(img_to_yuv, cv2.COLOR_YUV2RGB)
@@ -95,13 +95,12 @@ def MostrarImagenes(operacion,imagen1,imagen2,result):
 
     plt.title("Histograma: "+ operacion)
     fig.add_subplot(fila,columna,8)
-    #aqui va el calculo del ecualizado
     img_to_yuv = cv2.cvtColor(result,cv2.COLOR_RGB2YUV)
     img_to_yuv[:,:,0] = cv2.equalizeHist(img_to_yuv[:,:,0])
     equaimgOp = cv2.cvtColor(img_to_yuv, cv2.COLOR_YUV2RGB)
     color = ('g','b','r')
-    for i, c in enumerate(color):
-        hist = cv2.calcHist([equaimgOp], [i], None, [256], [0, 256])
+    for channel, c in enumerate(color):
+        hist = cv2.calcHist([equaimgOp], [channel], None, [256], [0, 256])
         plt.plot(hist, color = c)
         plt.xlim([0,256])
         
@@ -113,81 +112,79 @@ def MostrarImagenes(operacion,imagen1,imagen2,result):
     plt.title("Imagen Ecualizada: "+ operacion)
     plt.show()
 
-while True:
-    if keyboard.is_pressed("Y") or keyboard.is_pressed("y"):
 
-        operacion="Suma"
-        result=cv2.add(imagen1,imagen2)
-        MostrarImagenes(operacion,imagen1,imagen2,result)
-        plt.close()
 
-        operacion="Resta"
-        result=cv2.subtract(imagen1,imagen2)
-        MostrarImagenes(operacion,imagen1,imagen2,result)
-        plt.close()
+operacion="Suma"
+result=cv2.add(imagen1,imagen2)
+MostrarImagenes(operacion,imagen1,imagen2,result)
+plt.close()
 
-        operacion="Multiplicacion"
-        result=cv2.multiply(imagen1,imagen2)
-        MostrarImagenes(operacion,imagen1,imagen2,result)
-        plt.close()
+operacion="Resta"
+result=cv2.subtract(imagen1,imagen2)
+MostrarImagenes(operacion,imagen1,imagen2,result)
+plt.close()
 
-        operacion="Division"
-        result=cv2.divide(imagen1,imagen2)
-        MostrarImagenes(operacion,imagen1,imagen2,result)
-        plt.close()
+operacion="Multiplicacion"
+result=cv2.multiply(imagen1,imagen2)
+MostrarImagenes(operacion,imagen1,imagen2,result)
+plt.close()
 
-        operacion="Raiz cuadrada"
-        result=imagen1
-        result=cv2.sqrt(np.float32(result))
-        result=np.asarray(result, dtype = int)
-        cv2.imwrite("resultadoRaiz.jpg",result)
-        result = cv2.imread('resultadoRaiz.jpg')
-        MostrarImagenes(operacion,imagen1,imagen2,result)
-        plt.close()
+operacion="Division"
+result=cv2.divide(imagen1,imagen2)
+MostrarImagenes(operacion,imagen1,imagen2,result)
+plt.close()
 
-        operacion="Potencia"
-        result=imagen1
-        result=np.power(result,2)
-        result=np.asarray(result, dtype = int)
-        cv2.imwrite("resultadoPot.jpg",result)
-        result = cv2.imread('resultadoPot.jpg', 1)
-        MostrarImagenes(operacion,imagen1,imagen2,result)
-        plt.close()
+operacion="Raiz cuadrada"
+result=imagen1
+result=cv2.sqrt(np.float32(result))
+result=np.asarray(result, dtype = int)
+cv2.imwrite("resultadoRaiz.jpg",result)
+result = cv2.imread('resultadoRaiz.jpg')
+MostrarImagenes(operacion,imagen1,imagen2,result)
+plt.close()
 
-        operacion="Conjuncion"
-        result=cv2.bitwise_and(imagen1,imagen2)
-        MostrarImagenes(operacion,imagen1,imagen2,result)
-        plt.close()
+operacion="Potencia"
+result=imagen1
+result=np.power(result,2)
+result=np.asarray(result, dtype = int)
+cv2.imwrite("resultadoPot.jpg",result)
+result = cv2.imread('resultadoPot.jpg', 1)
+MostrarImagenes(operacion,imagen1,imagen2,result)
+plt.close()
 
-        operacion="Disyuncion"
-        result=cv2.bitwise_or(imagen1,imagen2)
-        MostrarImagenes(operacion,imagen1,imagen2,result)
-        plt.close()
+operacion="Conjuncion"
+result=cv2.bitwise_and(imagen1,imagen2)
+MostrarImagenes(operacion,imagen1,imagen2,result)
+plt.close()
 
-        operacion="Negacion"
-        result=imagen2
-        result=image= 255-result
-        MostrarImagenes(operacion,imagen1,imagen2,result)
-        plt.close()
+operacion="Disyuncion"
+result=cv2.bitwise_or(imagen1,imagen2)
+MostrarImagenes(operacion,imagen1,imagen2,result)
+plt.close()
 
-        operacion="Translacion"
-        ancho = imagen1.shape[1] #columnas
-        alto = imagen1.shape[0] #fila
-        M = np.float32([[1,0,2],[0,1,2]])
-        result = cv2.warpAffine(img1,M,(ancho,alto))
-        MostrarImagenes(operacion,imagen1,imagen2,result)
-        plt.close()
+operacion="Negacion"
+result=imagen2
+result=image= 255-result
+MostrarImagenes(operacion,imagen1,imagen2,result)
+plt.close()
 
-        operacion="Escalado"
-        result= imutils.resize(imagen1,height=200)
-        MostrarImagenes(operacion,imagen1,imagen2,result)
-        plt.close()
+operacion="Translacion"
+ancho = imagen1.shape[1] #columnas
+alto = imagen1.shape[0] #fila
+M = np.float32([[1,0,2],[0,1,2]])
+result = cv2.warpAffine(img1,M,(ancho,alto))
+MostrarImagenes(operacion,imagen1,imagen2,result)
+plt.close()
 
-        operacion="Rotacion"
-        ancho = imagen1.shape[1] #columnas
-        alto = imagen1.shape[0] #fila
-        M = cv2.getRotationMatrix2D((ancho//2,alto//2),15,1)
-        result = cv2.warpAffine(img1,M,(ancho,alto))
-        MostrarImagenes(operacion,imagen1,imagen2,result)
-        plt.close()
-    break
+operacion="Escalado"
+result= imutils.resize(imagen1,height=200)
+MostrarImagenes(operacion,imagen1,imagen2,result)
+plt.close()
+
+operacion="Rotacion"
+ancho = imagen1.shape[1] #columnas
+alto = imagen1.shape[0] #fila
+M = cv2.getRotationMatrix2D((ancho//2,alto//2),15,1)
+result = cv2.warpAffine(img1,M,(ancho,alto))
+MostrarImagenes(operacion,imagen1,imagen2,result)
+plt.close()
