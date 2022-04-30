@@ -13,38 +13,35 @@ from PIL import Image as Im
 fila = 4
 columna = 3
 
-#Imágenes Iniciales
-img1 = cv2.imread('img1.jpg', 1)
-img2 = cv2.imread('img2.jpg', 1)
+image1 = cv2.imread("img1.jpg")
+image2 = cv2.imread("img2.jpg")
 
-#Dimencionamiento en bruto
-Redimg1 = cv2.resize(img1, (300, 200))
-Redimg2 = cv2.resize(img2, (300, 200))
+img1 = cv2.resize(image1, dsize=(550, 350), interpolation=cv2.INTER_CUBIC)
+img2 = cv2.resize(image2, dsize=(550, 350), interpolation=cv2.INTER_CUBIC)
 
-#De matriz BGR a RGB
-Redimg1 = cv2.cvtColor(Redimg1, cv2.COLOR_BGR2RGB)
-Redimg2 = cv2.cvtColor(Redimg2, cv2.COLOR_BGR2RGB)
+imagen1 = cv2.cvtColor(img1, cv2.COLOR_BGR2RGB)
+imagen2 = cv2.cvtColor(img2, cv2.COLOR_BGR2RGB)
 
-def graficar(operacion,redimg1,redimg2,redimgop):
+def MostrarImagenes(operacion,imagen1,imagen2,redimgop):
     global fila 
     global columna
     fig = plt.figure(figsize=(10,7), constrained_layout=True)
     fig.add_subplot(fila,columna,1)
-    plt.imshow(redimg1)
+    plt.imshow(imagen1)
     plt.axis('off')
     plt.title("Imagen 1")
 
     fig.add_subplot(fila,columna,4)
     color = ('g','b','r')
     for i, c in enumerate(color):
-        hist = cv2.calcHist([redimg1], [i], None, [256], [0, 256])
+        hist = cv2.calcHist([imagen1], [i], None, [256], [0, 256])
         plt.plot(hist, color = c)
         plt.xlim([0,256])
 
     plt.title("Histograma img 1")
     fig.add_subplot(fila,columna,7)
     #aqui va el calculo del ecualizado
-    img_to_yuv = cv2.cvtColor(Redimg1,cv2.COLOR_RGB2YUV)
+    img_to_yuv = cv2.cvtColor(imagen1,cv2.COLOR_RGB2YUV)
     img_to_yuv[:,:,0] = cv2.equalizeHist(img_to_yuv[:,:,0])
     equaimg1 = cv2.cvtColor(img_to_yuv, cv2.COLOR_YUV2RGB)
     color = ('g','b','r')
@@ -61,21 +58,21 @@ def graficar(operacion,redimg1,redimg2,redimgop):
     plt.title("Imagen 1 Ecualizada")
     #-----------------2da Imagen-------------------------
     fig.add_subplot(fila,columna,3)
-    plt.imshow(redimg2)
+    plt.imshow(imagen2)
     plt.axis('off')
     plt.title("Imagen 2")
 
     fig.add_subplot(fila,columna,6)
     color = ('g','b','r')
     for i, c in enumerate(color):
-        hist = cv2.calcHist([redimg2], [i], None, [256], [0, 256])
+        hist = cv2.calcHist([imagen2], [i], None, [256], [0, 256])
         plt.plot(hist, color = c)
         plt.xlim([0,256])
 
     plt.title("Histograma img 2")
     fig.add_subplot(fila,columna,9)
     #aqui va el calculo del ecualizado
-    img_to_yuv = cv2.cvtColor(Redimg2,cv2.COLOR_RGB2YUV)
+    img_to_yuv = cv2.cvtColor(imagen2,cv2.COLOR_RGB2YUV)
     img_to_yuv[:,:,0] = cv2.equalizeHist(img_to_yuv[:,:,0])
     equaimg2 = cv2.cvtColor(img_to_yuv, cv2.COLOR_YUV2RGB)
     color = ('g','b','r')
@@ -124,64 +121,64 @@ def graficar(operacion,redimg1,redimg2,redimgop):
     plt.show()
 
 operacion="Suma"
-Redimgop=cv2.add(Redimg1,Redimg2)
-graficar(operacion,Redimg1,Redimg2,Redimgop)
+Redimgop=cv2.add(imagen1,imagen2)
+MostrarImagenes(operacion,imagen1,imagen2,Redimgop)
 plt.close()
 operacion="Resta"
-Redimgop=cv2.subtract(Redimg1,Redimg2)
-graficar(operacion,Redimg1,Redimg2,Redimgop)
+Redimgop=cv2.subtract(imagen1,imagen2)
+MostrarImagenes(operacion,imagen1,imagen2,Redimgop)
 plt.close()
 operacion="Multiplicacion"
-Redimgop=cv2.multiply(Redimg1,Redimg2)
-graficar(operacion,Redimg1,Redimg2,Redimgop)
+Redimgop=cv2.multiply(imagen1,imagen2)
+MostrarImagenes(operacion,imagen1,imagen2,Redimgop)
 plt.close()
 operacion="Division"
-Redimgop=cv2.divide(Redimg1,Redimg2)
-graficar(operacion,Redimg1,Redimg2,Redimgop)
+Redimgop=cv2.divide(imagen1,imagen2)
+MostrarImagenes(operacion,imagen1,imagen2,Redimgop)
 operacion="Raiz cuadrada"
-Redimgop=Redimg1
+Redimgop=imagen1
 Redimgop=np.sqrt(Redimgop)
 Redimgop=np.asarray(Redimgop, dtype = int)
 cv2.imwrite("resultSQRT.jpg",Redimgop)
 Redimgop = cv2.imread('resultSQRT.jpg', 1)
-graficar(operacion,Redimg1,Redimg2,Redimgop)
+MostrarImagenes(operacion,imagen1,imagen2,Redimgop)
 plt.close()
 operacion="Potencia"
-Redimgop=Redimg1
+Redimgop=imagen1
 Redimgop=np.power(Redimgop,2)
 Redimgop=np.asarray(Redimgop, dtype = int)
 cv2.imwrite("resultPower.jpg",Redimgop)
 Redimgop = cv2.imread('resultPower.jpg', 1)
-graficar(operacion,Redimg1,Redimg2,Redimgop)
+MostrarImagenes(operacion,imagen1,imagen2,Redimgop)
 plt.close()
 operacion="Conjuncion"
-Redimgop=cv2.bitwise_and(Redimg1,Redimg2)
-graficar(operacion,Redimg1,Redimg2,Redimgop)
+Redimgop=cv2.bitwise_and(imagen1,imagen2)
+MostrarImagenes(operacion,imagen1,imagen2,Redimgop)
 plt.close()
 operacion="Disyuncion"
-Redimgop=cv2.bitwise_or(Redimg1,Redimg2)
-graficar(operacion,Redimg1,Redimg2,Redimgop)
+Redimgop=cv2.bitwise_or(imagen1,imagen2)
+MostrarImagenes(operacion,imagen1,imagen2,Redimgop)
 plt.close()
 operacion="Negacion"
-Redimgop=Redimg1
+Redimgop=imagen1
 Redimgop=image= 255-Redimgop
-graficar(operacion,Redimg1,Redimg2,Redimgop)
+MostrarImagenes(operacion,imagen1,imagen2,Redimgop)
 plt.close()
 operacion="Translacion"
-ancho = Redimg1.shape[1] #columnas
-alto = Redimg1.shape[0] #fila
+ancho = imagen1.shape[1] #columnas
+alto = imagen1.shape[0] #fila
 M = np.float32([[1,0,2],[0,1,2]])
 Redimgop = cv2.warpAffine(img1,M,(ancho,alto))
-graficar(operacion,Redimg1,Redimg2,Redimgop)
+MostrarImagenes(operacion,imagen1,imagen2,Redimgop)
 plt.close()
 operacion="Escalado"
-Redimgop= imutils.resize(Redimg1,height=400)
-graficar(operacion,Redimg1,Redimg2,Redimgop)
+Redimgop= imutils.resize(imagen1,height=400)
+MostrarImagenes(operacion,imagen1,imagen2,Redimgop)
 plt.close()
 operacion="Rotacion"
-ancho = Redimg1.shape[1] #columnas
-alto = Redimg1.shape[0] #fila
+ancho = imagen1.shape[1] #columnas
+alto = imagen1.shape[0] #fila
 M = cv2.getRotationMatrix2D((ancho//2,alto//2),15,1)
 Redimgop = cv2.warpAffine(img1,M,(ancho,alto))
-graficar(operacion,Redimg1,Redimg2,Redimgop)
+MostrarImagenes(operacion,imagen1,imagen2,Redimgop)
 plt.close()
