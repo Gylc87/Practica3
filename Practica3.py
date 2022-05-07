@@ -7,7 +7,7 @@ import imutils
 import keyboard
 
 fila = 4
-columna = 1
+columna = 3
 
 image1 = cv2.imread("img1.jpg")
 image2 = cv2.imread("img2.jpg")
